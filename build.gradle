@@ -1,0 +1,55 @@
+plugins {
+  id 'war'
+}
+
+apply plugin: 'java-library'
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  // Jakarta Servlet 5.0 API
+  // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
+  providedCompile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+  implementation "mysql:mysql-connector-java:8.0.15"
+}
+
+// Java 15
+sourceCompatibility = 15
+targetCompatibility = 15
+
+// Application
+// https://docs.gradle.org/7.0/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html
+version = ''
+war {
+  archiveExtension = 'war'
+  archiveBaseName = 'app'
+  archiveVersion = ''
+}
+
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Delete.html
+task cleanUp(type: Delete) {
+  delete '${buildDir}/build/app.war', '${buildDir}/build/app'
+  followSymlinks = true
+}
+
+// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
+task restartTomcat(type:Exec) {
+  workingDir '/usr/local/tomcat/bin'
+  commandLine 'catalina.sh stop; catalina.sh start;'
+
+  standardOutput = new ByteArrayOutputStream()
+  ext.output = {
+    return standardOutput.toString()
+  }
+}
+
+apply plugin: 'java'
+
+allprojects {
+    afterEvaluate { project ->
+        cleanUp
+        restartTomcat
+    }
+}

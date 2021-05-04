@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$RUNNING_DOCKER" == "1" ]; then
+    echo "Dentro do docker, use o gradle diretamente (sem ./)."
+    exit 1
+fi
+
+docker exec -it java15-app gradle "$@"; 
