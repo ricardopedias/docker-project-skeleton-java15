@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  app:
+    image: ricardopedias/docker-project:java15
+    container_name: java15-app
+    volumes:
+      - ./:/application
+    ports:
+      - "8888:8080"

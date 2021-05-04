@@ -46,3 +46,5 @@ http://localhost:8888/app
 http://localhost:8888/app/acme
 ```
 
+
+https://eclipse-ee4j.github.io/jakartaee-tutorial/

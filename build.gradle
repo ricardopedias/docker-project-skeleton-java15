@@ -22,20 +22,38 @@ targetCompatibility = 15
 // Application
 // https://docs.gradle.org/7.0/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html
 version = ''
+
+// https://docs.gradle.org/current/userguide/war_plugin.html
 war {
   archiveExtension = 'war'
   archiveBaseName = 'app'
   archiveVersion = ''
+  webXml = file('src/main/webapp/web.xml')
 }
+
+apply plugin: 'java'
+
+def webappsPath = '/usr/local/tomcat/webapps'
 
 // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Delete.html
 task cleanUp(type: Delete) {
-  delete '${buildDir}/build/app.war', '${buildDir}/build/app'
+  description "Limpa o diretório de build e remove a aplicação do ${webappsPath}."
+  println "Removendo ${buildDir}, ${webappsPath}/app.war e ${webappsPath}/webapps/app"
+  delete "${buildDir}", "${webappsPath}/app.war", "${webappsPath}/app"
   followSymlinks = true
+}
+
+task deployApp(type: Copy) {
+    dependsOn(war)
+    println "Copiando ${buildDir}/libs/app.war para ${webappsPath}/app.war"
+    from "${buildDir}/libs/app.war"
+    into "${webappsPath}"
+
 }
 
 // https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 task restartTomcat(type:Exec) {
+  dependsOn(deployApp)
   workingDir '/usr/local/tomcat/bin'
   commandLine 'catalina.sh stop; catalina.sh start;'
 
@@ -45,11 +63,21 @@ task restartTomcat(type:Exec) {
   }
 }
 
-apply plugin: 'java'
+// task build << {
+//     deployApp
+//     restartTomcat
+// }
 
-allprojects {
-    afterEvaluate { project ->
-        cleanUp
-        restartTomcat
-    }
-}
+// task preBuild << {
+//     cleanUp
+// }
+cleanUp
+build.dependsOn << deployApp
+
+// allprojects {
+//     afterEvaluate { project ->
+//         // cleanUp
+//         deployApp
+//         restartTomcat
+//     }
+// }
