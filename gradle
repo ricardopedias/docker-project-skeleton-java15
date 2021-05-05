@@ -5,4 +5,5 @@ if [ "$RUNNING_DOCKER" == "1" ]; then
     exit 1
 fi
 
+docker compose up
 docker exec -it java15-app gradle "$@"; 

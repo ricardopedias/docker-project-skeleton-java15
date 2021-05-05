@@ -1,28 +1,15 @@
 # DPI - Java 15
 
 Este é um projeto de exemplo para aplicações Java 15, usando containers Docker.
+Foi configurado para facilitar o processo de desenvolvimento com uma imagem do projeto ricardopedias/docker-project.
 
 ## Infraestrutura
 
-O projeto faz uso da imagem ricardopedias/docker-project:java15, que contém a 
-seguinte configuração:
+O projeto faz uso da seguinte configuração:
 
 - Java 15
 - Tomcat 10
 - Gradle 7
-
-## Desenvolvimento
-
-Para facilitar o desenvolvimento, existe um comando de atalho para o Gradle,
-que pode ser executado sem precisar entrar no container:
-
-```
-./gradle <qualquer comando>
-
-ou
-
-./gradle build -t
-```
 
 ## Execução do projeto
 
@@ -41,11 +28,33 @@ Ao subir o container, o Tomcat será automaticamente iniciado:
 ```
 // para acessar o index.jsp
 http://localhost:8888/app 
+http://localhost:8888/app/index.jsp 
+http://localhost:8888/app/map-index
 
 // para acessar o MyServlet
 http://localhost:8888/app/acme
 ```
 
+## Desenvolvimento
+
+Na raiz do projeto, existe um comando de atalho para o Gradle, que permite executá-lo
+sem precisar entrar no container. Por exemplo, para executar qualquer comando, basta
+invocar:
+
+```
+./gradle <qualquer comando>
+```
+
+O Gradle foi configurado para fazer deploy automático sempre que algo for atualizado 
+no código fonte do projeto. Para ativar esta funcionalidade, basta usar o comando nativo
+do Gradle: 
+
+```
+./gradle build -t
+```
+
+Nota: normalmente, o comando acima apenas compila a cada mudança, mas nesta configuração,
+ele também efetua o deploy no Tomcat.
 
 ## Referências
 
