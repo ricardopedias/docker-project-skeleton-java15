@@ -31,7 +31,7 @@ http://localhost:8888/app
 http://localhost:8888/app/index.jsp 
 http://localhost:8888/app/map-index
 
-// para acessar o MyServlet
+// para acessar o Servlet
 http://localhost:8888/app/acme
 ```
 
