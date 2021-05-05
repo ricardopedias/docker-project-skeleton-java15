@@ -24,7 +24,7 @@ public class Acme extends HttpServlet
 
         PrintWriter out = response.getWriter();
 
-        out.println("<h1>Exemplo Servlet </h1>");
+        out.println("<h1>Exemplo Servlet</h1>");
 
         out.println("<p>");
         out.println("Este é um servlet, para acessar uma página jsp, ");

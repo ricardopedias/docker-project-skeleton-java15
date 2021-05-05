@@ -5,11 +5,4 @@ if [ "$RUNNING_DOCKER" == "1" ]; then
     exit 1
 fi
 
-if [ "$1" == "deploy" ]; then
-    docker exec -it java15-app gradle -q cleanUp &&
-    docker exec -it java15-app gradle build && 
-    docker exec -it java15-app gradle -q deployApp 
-    exit 0
-fi
-
 docker exec -it java15-app gradle "$@"; 

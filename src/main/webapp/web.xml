@@ -8,6 +8,11 @@
   https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
   version="5.0">
 
+  <context-param>
+    <param-name>companyName</param-name>
+    <param-value>My Company, Incorporated</param-value>
+  </context-param>
+
   <servlet>
     <servlet-name>JspMapeado</servlet-name>
     <jsp-file>/index.jsp</jsp-file>

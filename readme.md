@@ -47,4 +47,12 @@ http://localhost:8888/app/acme
 ```
 
 
-https://eclipse-ee4j.github.io/jakartaee-tutorial/
+## Referências
+
+- https://www.mulesoft.com/tcat/tomcat-reload
+- https://eclipse-ee4j.github.io/jakartaee-tutorial/
+- https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
+- https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
+- https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Delete.html
+- https://docs.gradle.org/7.0/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html
+- https://docs.gradle.org/current/userguide/war_plugin.html

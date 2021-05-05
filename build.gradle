@@ -3,6 +3,8 @@ plugins {
 }
 
 apply plugin: 'java-library'
+apply plugin: 'java'
+apply plugin: 'war'
 
 repositories {
   mavenCentral()
@@ -10,8 +12,8 @@ repositories {
 
 dependencies {
   // Jakarta Servlet 5.0 API
-  // https://mvnrepository.com/artifact/jakarta.servlet/jakarta.servlet-api
   providedCompile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
+  // Connector para MySQL
   implementation "mysql:mysql-connector-java:8.0.15"
 }
 
@@ -19,23 +21,19 @@ dependencies {
 sourceCompatibility = 15
 targetCompatibility = 15
 
-// Application
-// https://docs.gradle.org/7.0/dsl/org.gradle.api.tasks.bundling.AbstractArchiveTask.html
+// Essa versão afeta o nome do .war
 version = ''
 
-// https://docs.gradle.org/current/userguide/war_plugin.html
 war {
   archiveExtension = 'war'
   archiveBaseName = 'app'
   archiveVersion = ''
   webXml = file('src/main/webapp/web.xml')
+  metaInf { from 'src/main/webapp/context.xml' }
 }
-
-apply plugin: 'java'
 
 def webappsPath = '/usr/local/tomcat/webapps'
 
-// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Delete.html
 task cleanUp(type: Delete) {
   description "Limpa o diretório de build e remove a aplicação do ${webappsPath}."
   println "Removendo ${buildDir}, ${webappsPath}/app.war e ${webappsPath}/webapps/app"
@@ -51,7 +49,6 @@ task deployApp(type: Copy) {
 
 }
 
-// https://docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html
 task restartTomcat(type:Exec) {
   dependsOn(deployApp)
   workingDir '/usr/local/tomcat/bin'
@@ -63,21 +60,5 @@ task restartTomcat(type:Exec) {
   }
 }
 
-// task build << {
-//     deployApp
-//     restartTomcat
-// }
-
-// task preBuild << {
-//     cleanUp
-// }
 cleanUp
 build.dependsOn << deployApp
-
-// allprojects {
-//     afterEvaluate { project ->
-//         // cleanUp
-//         deployApp
-//         restartTomcat
-//     }
-// }
